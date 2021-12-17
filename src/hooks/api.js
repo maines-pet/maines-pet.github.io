@@ -155,4 +155,34 @@ export function useArtistTopTracks() {
 }
 
 
+export function useTrackInfo() {
+  const [trackInfo, setTrackInfo] = useState({})
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [error, setError] = useState(null)
+
+  const {name, track} = useParams()
+
+  useEffect(() => {
+    setIsLoaded(false)
+    axios.get(BASE_URL, {
+      params: {
+        method: 'track.getInfo',
+        artist: name,
+        track,
+        api_key: process.env.REACT_APP_LAST_FM,
+        format: 'json'
+      }
+    }).then(res => {
+      setTrackInfo(res.data.track)
+      setIsLoaded(true)
+    }).catch(err => {
+      console.log(err)
+      setError(err)
+    })
+  }, [name])
+
+
+  return { trackInfo, isLoaded, error }
+}
+
 

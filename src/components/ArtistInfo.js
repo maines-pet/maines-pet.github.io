@@ -58,7 +58,7 @@ function ArtistInfo(props) {
 
           <div>
             <p className='text-md'>{`If you like ${artist.name}, you might also like:`}</p>
-            <div className='mt-5'>
+            <div className='mt-5 grid grid-flow-col-dense gap-1'>
               {artist.similar.artist.map(({ name }) => <SimilarArtist name={name} />)}
             </div>
           </div>
@@ -78,9 +78,11 @@ function Tag({ label }) {
 
 function SimilarArtist({ name }) {
   return (
-    <Link to={'/artist/' + name} className='border rounded-3xl p-2 mr-2 mb-2 box-content'>
-      {name}
-    </Link>
+    <div>
+      <Link to={'/artist/' + name} className='border rounded-2xl p-2 mr-2 mb-2 box-content'>
+        {name}
+      </Link>
+    </div>
   )
 }
 
@@ -90,7 +92,7 @@ function TopAlbums({ albums }) {
       <h1 className='text-lg'>Top Albums</h1>
       <ul>
         {
-          albums.album.map(({name, playcount, url}) => {
+          albums.album.map(({ name, playcount, url }) => {
             return (
               <Link to={`/artist/${encodeURIComponent(albums['@attr'].artist)}/album/${encodeURIComponent(name)}`} key={url}>
                 <div>{name}</div>
@@ -111,7 +113,7 @@ function TopTracks({ tracks }) {
       <h1 className='text-lg'>Top Tracks</h1>
       <ul>
         {
-          tracks.track.map(({name, playcount, url}) => {
+          tracks.track.map(({ name, playcount, url }) => {
             return (
               <Link to={`/artist/${encodeURIComponent(tracks['@attr'].artist)}/track/${encodeURIComponent(name)}`} key={url}>
                 <div>{name}</div>

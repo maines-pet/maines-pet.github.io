@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import { Link } from "react-router-dom";
-import { useFlickrSearchResults, useTopArtistsSearch } from "../hooks/api";
+import { useChartTopArtists } from "../hooks/api";
 export function TopArtists(props) {
 
-  const { artistsList, isLoaded, error } = useTopArtistsSearch()
+  const { artistsList, isLoaded, error } = useChartTopArtists()
 
   return (
     <div className='pl-8'>

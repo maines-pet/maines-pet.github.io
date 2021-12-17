@@ -7,7 +7,7 @@ const { useState, useEffect } = require("react")
 const BASE_URL = 'http://ws.audioscrobbler.com/2.0/'
 
 
-export function useTopArtistsSearch() {
+export function useChartTopArtists() {
   const [artistsList, setArtistList] = useState({})
   const [isLoaded, setIsLoaded] = useState(false)
   const [error, setError] = useState(null)
@@ -32,6 +32,33 @@ export function useTopArtistsSearch() {
 
   return { artistsList, isLoaded, error }
 
+}
+
+export function useChartTopTracks() {
+  const [tracks, setTracks] = useState({})
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    setIsLoaded(false)
+    axios.get(BASE_URL, {
+      params: {
+        method: 'chart.gettoptracks',
+        api_key: process.env.REACT_APP_LAST_FM,
+        format: 'json',
+        limit: 20
+      }
+    }).then(res => {
+      setTracks(res.data.tracks)
+      setIsLoaded(true)
+    }).catch(err => {
+      console.log(err)
+      setError(err)
+    })
+  }, [])
+
+
+  return { tracks, isLoaded, error }
 }
 
 export function useArtistSearch() {
@@ -126,3 +153,6 @@ export function useArtistTopTracks() {
 
   return { tracks, isLoaded, error }
 }
+
+
+

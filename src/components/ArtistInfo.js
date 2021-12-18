@@ -1,15 +1,24 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useEffect } from 'react/cjs/react.development';
 import { useArtistSearch, useArtistTopAlbums, useArtistTopTracks } from '../hooks/api';
 
 function ArtistInfo(props) {
 
-  const { artist, isLoaded: artistLoaded, error: artistError } = useArtistSearch()
+  const { artist, isLoaded: artistLoaded, showFullContent, setShowFullContent, error: artistError } = useArtistSearch()
   const { albums, isLoaded: albumsLoaded, error: albumsError } = useArtistTopAlbums()
   const { tracks, isLoaded: tracksLoaded, error: tracksError } = useArtistTopTracks()
-  const [showFullContent, setShowFullContent] = useState(false)
 
+  const [imgUrl, setImgUrl] = useState('')
+  const { name } = useParams()
+
+  useEffect(() => {
+    setImgUrl('')
+    axios.get('https://randomuser.me/api/?inc=picture')
+      .then(res => setImgUrl(res.data.results[0].picture.large))
+      .catch(err => console.log(err))
+  }, [name])
 
   const handleClick = () => {
     setShowFullContent(!showFullContent)
@@ -20,6 +29,7 @@ function ArtistInfo(props) {
       {
         artistLoaded &&
         <div className='mt-20 ml-8 max-w-4xl'>
+          <img src={imgUrl} alt="" />
           <h1 className='text-3xl'>{artist.name}</h1>
 
           <div className='tags '>

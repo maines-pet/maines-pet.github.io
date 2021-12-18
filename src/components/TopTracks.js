@@ -31,7 +31,7 @@ function TracksRow(props) {
         </div>
         <div>
           <Link to={'/artist/' + encodeURIComponent(artist.name) + '/track/' + encodeURIComponent(name)}>
-            <div className='w-[500px]'>
+            <div className='w-[450px]'>
               <div className='hover:underline text-3xl truncate p-0.5'>{name}</div>
             </div>
           </Link>

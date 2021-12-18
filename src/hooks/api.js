@@ -65,6 +65,8 @@ export function useArtistSearch() {
   const [artist, setArtist] = useState({})
   const [isLoaded, setIsLoaded] = useState(false)
   const [error, setError] = useState(null)
+  const [showFullContent, setShowFullContent] = useState(false)
+
 
   const { name } = useParams()
 
@@ -72,6 +74,7 @@ export function useArtistSearch() {
 
   useEffect(() => {
     setIsLoaded(false)
+    setShowFullContent(false)
     axios.get(BASE_URL, {
       params: {
         method: 'artist.getinfo',
@@ -91,7 +94,7 @@ export function useArtistSearch() {
   }, [name])
 
 
-  return { artist, isLoaded, error }
+  return { artist, isLoaded, showFullContent, setShowFullContent, error }
 }
 
 export function useArtistTopAlbums() {
@@ -132,6 +135,7 @@ export function useArtistTopTracks() {
   const { name } = useParams()
 
   useEffect(() => {
+    console.log('in effect')
     setIsLoaded(false)
     axios.get(BASE_URL, {
       params: {
@@ -161,7 +165,7 @@ export function useTrackInfo() {
   const [error, setError] = useState(null)
 
   const {name, track} = useParams()
-
+  const cancelSource = axios.CancelToken.source()
   useEffect(() => {
     setIsLoaded(false)
     axios.get(BASE_URL, {
@@ -179,6 +183,7 @@ export function useTrackInfo() {
       console.log(err)
       setError(err)
     })
+    return cancelSource.cancel('Inflight axios request cancelled')
   }, [name])
 
 

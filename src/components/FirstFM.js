@@ -13,7 +13,7 @@ function FirstFM(props) {
 
   return (
     <Router>
-      <div className='text-gray-300'>
+      <div className='text-gray-300 font-mono'>
         <div className='grid grid-cols-5 container mx-auto bg-slate-600 h-screen overflow-auto'>
           <nav className='bg-slate-900  '>
             <ul>
